@@ -68,8 +68,9 @@ Debugging these failures directly on a developer's host machine risks polluting 
 - **Docker Desktop** installed and running
 
 ### 1. Backend Setup
+From the repository root:
 ```powershell
-cd "c:\Users\Santhosh reddy\OneDrive\Desktop\Repo-Reapers\backend"
+cd backend
 python -m venv .venv
 .\.venv\Scripts\pip.exe install -r requirements.txt
 copy .env.example .env
@@ -78,8 +79,9 @@ Edit `backend/.env` and set your `GROQ_API_KEY` and `GROQ_MODEL` (for example `o
 *(Note: If `GROQ_API_KEY` is omitted, Envix still works for system inspection, cloning, static analysis, and Docker execution.)*
 
 ### 2. Frontend Setup
+From the repository root:
 ```powershell
-cd "c:\Users\Santhosh reddy\OneDrive\Desktop\Repo-Reapers\frontend"
+cd frontend
 npm.cmd install
 ```
 
@@ -87,17 +89,17 @@ npm.cmd install
 
 ## Windows Startup Instructions
 
-Open two PowerShell terminals:
+Open two PowerShell terminals from the repository root:
 
 **Terminal 1 — Start FastAPI Backend:**
 ```powershell
-cd "c:\Users\Santhosh reddy\OneDrive\Desktop\Repo-Reapers\backend"
+cd backend
 .\.venv\Scripts\uvicorn.exe app.main:app --host 127.0.0.1 --port 8000 --reload
 ```
 
 **Terminal 2 — Start React (Vite) Frontend:**
 ```powershell
-cd "c:\Users\Santhosh reddy\OneDrive\Desktop\Repo-Reapers\frontend"
+cd frontend
 npm.cmd run dev
 ```
 *(Using `npm.cmd` avoids Windows PowerShell `npm.ps1` execution policy restrictions.)*
@@ -106,7 +108,7 @@ Open **http://127.0.0.1:5173/** in your browser.
 
 ### Running Tests
 ```powershell
-cd "c:\Users\Santhosh reddy\OneDrive\Desktop\Repo-Reapers\backend"
+cd backend
 .\.venv\Scripts\pytest.exe -v
 ```
 
@@ -123,15 +125,6 @@ cd "c:\Users\Santhosh reddy\OneDrive\Desktop\Repo-Reapers\backend"
 - **Dependency installation executes build scripts:** `pip install` can run arbitrary `setup.py` / PEP 517 build hooks inside the container, which is why Envix requires explicit user approval first.
 - **Network rules:** Network access is enabled only during approved `pip install` and disabled (`network_disabled=True`) during project execution.
 - **No auto-apply:** AI-suggested fixes are never automatically written to the repository or executed.
-
----
-
-## 5-Minute Hackathon Demonstration Script
-1. **0:00 – 0:45 | Problem & Dashboard Overview:** Open `http://127.0.0.1:5173/`. Point out the **System Status** panel showing live Python, Git, Docker CLI, and Docker Engine checks on Windows.
-2. **0:45 – 1:45 | Static Repository Analysis:** Paste `https://github.com/pypa/sampleproject` and click **Analyze Repository**. Show the detected `pyproject.toml`, declared Python version (`>=3.9`), `peppercorn` dependency, and candidate entry point (`sample`)—without running any code.
-3. **1:45 – 3:00 | Approved Docker Build & Execution:** Check the dependency approval box and click **Approve & Install Dependencies**. Show real `pip` logs in **Dependency Installation Logs**. Then confirm the execution command (`sample`), check approval, and click **Execute Project** to show real `stdout`, `exit_code: 0`, and `duration_seconds`.
-4. **3:00 – 4:15 | Reproducing a Failure & AI Diagnosis:** Trigger or show a failing dependency/runtime run, then click **Diagnose with Groq AI**. Show how Envix strips secrets, explains the root cause in plain English, quotes exact log evidence, and provides a **Download Fix** button.
-5. **4:15 – 5:00 | Final Report & Safety Wrap-up:** Show the **Final Report** panel and click **Download Report (JSON)**. Highlight that original files are never overwritten and AI never runs commands automatically.
 
 ---
 
